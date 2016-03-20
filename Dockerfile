@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-# Base image with Dockerize, Gosu, and setup scripts for postgres and an
+# Base image with Dockerize, Gosu, and setup scripts for gulp, postgres and an
 # unprivileged user.
 
 # System packages.
