@@ -28,11 +28,11 @@ USER_GID=$(id -g "${USERNAME}")
 
 # Change user or home directory UID and GID.
 if [[ "${USER_UID}" != "${HOME_DIR_UID}" ]] || [[ "${USER_GID}" != "${HOME_DIR_GID}" ]]; then
-	if [[ "${HOME_DIR_UID}" == 0 ]]; then
-		echo "Unprivileged user home directory '${HOME_DIR}' is owned by root. Change owner."
-		chown -R "${USER_UID}:${USER_GID}" "${HOME_DIR}"
-	else
-		echo "UID and GID for user '${USERNAME}' (${USER_UID}:${USER_GID}) do not match directory '${HOME_DIR}' (${HOME_DIR_UID}:${HOME_DIR_GID}). Modify."
-		usermod -g "${HOME_DIR_GID}" -u "${HOME_DIR_UID}" "${USERNAME}"
-	fi
+    if [[ "${HOME_DIR_UID}" == 0 ]]; then
+        echo "Unprivileged user home directory '${HOME_DIR}' is owned by root. Change owner."
+        chown -R "${USER_UID}:${USER_GID}" "${HOME_DIR}"
+    else
+        echo "UID and GID for user '${USERNAME}' (${USER_UID}:${USER_GID}) do not match directory '${HOME_DIR}' (${HOME_DIR_UID}:${HOME_DIR_GID}). Modify."
+        usermod -g "${HOME_DIR_GID}" -u "${HOME_DIR_UID}" "${USERNAME}"
+    fi
 fi
