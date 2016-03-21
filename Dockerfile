@@ -26,16 +26,3 @@ ENTRYPOINT ["entrypoint-base.sh"]
 
 # Source.
 COPY . /opt/base
-
-# ONBUILD #####################################################################
-
-# Build arguments.
-ONBUILD ARG PROJECT_NAME
-
-# Environment.
-ONBUILD ENV PROJECT_NAME=$PROJECT_NAME
-ONBUILD ENV PROJECT_DIR=/opt/$PROJECT_NAME
-ONBUILD ENV PATH=$PROJECT_DIR/bin:$PATH
-
-# Workdir.
-ONBUILD WORKDIR $PROJECT_DIR
