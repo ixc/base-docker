@@ -26,19 +26,17 @@ echo "Create database '${PGDATABASE}'."
 createdb "${PGDATABASE}"
 
 # Restore from file or source database.
-if [[ -n "${SRC_PGDATABASE}" ]]; then
-    if [[ -f "${SRC_PGDATABASE}" ]]; then
-        echo "Restore database '${PGDATABASE}' from file '${SRC_PGDATABASE}'."
-        psql -d "${PGDATABASE}" -f "${SRC_PGDATABASE}"
-    else
-        # Get source database credentials.
-        SRC_PGHOST="${SRC_PGHOST:-${PGHOST}}"
-        SRC_PGPASSWORD="${SRC_PGPASSWORD:-${PGPASSWORD}}"
-        SRC_PGPORT="${SRC_PGPORT:-${PGPORT}}"
-        SRC_PGUSER="${SRC_PGUSER:-${PGUSER}}"
-        # Wait for source database server to become available.
-        # dockerize -wait "tcp://${SRC_PGHOST}:${SRC_PGPORT}"
-        echo "Restore database '${PGDATABASE}' from source database '${SRC_PGDATABASE}' on tcp://${SRC_PGHOST}:${SRC_PGPORT}."
-        PGPASSWORD="${SRC_PGPASSWORD}" pg_dump -d "${SRC_PGDATABASE}" -h "${SRC_PGHOST}" -p "${SRC_PGPORT}" -U "${SRC_PGUSER}" -O -x | psql -d "${PGDATABASE}"
-    fi
+if [[ -f "${PROJECT_DIR}/var/initial_data.sql" ]]; then
+    echo "Restore database '${PGDATABASE}' from file '${PROJECT_DIR}/var/initial_data.sql'."
+    psql -d "${PGDATABASE}" -f "${PROJECT_DIR}/var/initial_data.sql"
+elif [[ -n "${SRC_PGDATABASE}" ]]; then
+    # Get source database credentials.
+    SRC_PGHOST="${SRC_PGHOST:-${PGHOST}}"
+    SRC_PGPASSWORD="${SRC_PGPASSWORD:-${PGPASSWORD}}"
+    SRC_PGPORT="${SRC_PGPORT:-${PGPORT}}"
+    SRC_PGUSER="${SRC_PGUSER:-${PGUSER}}"
+    # Wait for source database server to become available.
+    # dockerize -wait "tcp://${SRC_PGHOST}:${SRC_PGPORT}"
+    echo "Restore database '${PGDATABASE}' from source database '${SRC_PGDATABASE}' on tcp://${SRC_PGHOST}:${SRC_PGPORT}."
+    PGPASSWORD="${SRC_PGPASSWORD}" pg_dump -d "${SRC_PGDATABASE}" -h "${SRC_PGHOST}" -p "${SRC_PGPORT}" -U "${SRC_PGUSER}" -O -x | psql -d "${PGDATABASE}"
 fi
