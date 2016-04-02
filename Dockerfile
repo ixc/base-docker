@@ -10,6 +10,5 @@ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/downloa
     && chmod +x /usr/local/bin/gosu
 
 ENV PATH=/opt/base/bin:$PATH
-ENTRYPOINT ["entrypoint-base.sh"]
 
 COPY . /opt/base
