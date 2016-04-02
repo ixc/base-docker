@@ -1,38 +1,45 @@
 #!/bin/bash
 
 # Create an unprivileged user with the given username and home directory. If
-# the user already exists, change its UID and GID match the given home
-# directory. If the home directory already exists and is owned by root, change
-# its UID and GID to match the unprivileged user.
+# the user already exists, change its UID and GID to match the directory. If
+# the directory already exists and is owned by root, change its UID and GID to
+# match the user.
 
 set -e
 
-USERNAME=$1
-HOME_DIR=$2
+USERNAME="$1"
+DIR="$2"
 
-# Create user.
+if [[ -z "${USERNAME}" ]] || [[ -z "${DIR}" ]]; then
+	echo "Missing required 'USERNAME' or 'DIR' positional arguments. Abort."
+	exit 1
+fi
+
+# Create user and directory.
 if ! id "${USERNAME}" 2> /dev/null; then
     echo "User '${USERNAME}' does not exist. Create."
-    if [[ -d "${HOME_DIR}" ]]; then
-        adduser --system --home "${HOME_DIR}" --no-create-home "${USERNAME}"
+    if [[ -d "${DIR}" ]]; then
+        echo "Directory '${DIR}' already exists. Skip."
+        adduser --system --home "${DIR}" --no-create-home "${USERNAME}"
     else
-        adduser --system --home "${HOME_DIR}" "${USERNAME}"
+        echo "Directory '${DIR}' does not exist. Create."
+        adduser --system --home "${DIR}" "${USERNAME}"
     fi
 fi
 
 # Get UID and GID for user and home directory.
-HOME_DIR_GID=$(stat -c '%g' "${HOME_DIR}")
-HOME_DIR_UID=$(stat -c '%u' "${HOME_DIR}")
-USER_UID=$(id -u "${USERNAME}")
+DIR_GID=$(stat -c '%g' "${DIR}")
+DIR_UID=$(stat -c '%u' "${DIR}")
 USER_GID=$(id -g "${USERNAME}")
+USER_UID=$(id -u "${USERNAME}")
 
-# Change user or home directory UID and GID.
-if [[ "${USER_UID}" != "${HOME_DIR_UID}" ]] || [[ "${USER_GID}" != "${HOME_DIR_GID}" ]]; then
-    if [[ "${HOME_DIR_UID}" == 0 ]]; then
-        echo "Unprivileged user home directory '${HOME_DIR}' is owned by root. Change owner."
-        chown -R "${USER_UID}:${USER_GID}" "${HOME_DIR}"
+# Change user or directory UID and GID to match.
+if [[ "${USER_UID}" != "${DIR_UID}" ]] || [[ "${USER_GID}" != "${DIR_GID}" ]]; then
+    if [[ "${DIR_UID}" == 0 ]]; then
+        echo "Directory '${DIR}' is owned by root. Change owner."
+        chown -R "${USER_UID}:${USER_GID}" "${DIR}"
     else
-        echo "UID and GID for user '${USERNAME}' (${USER_UID}:${USER_GID}) do not match directory '${HOME_DIR}' (${HOME_DIR_UID}:${HOME_DIR_GID}). Modify."
-        usermod -g "${HOME_DIR_GID}" -u "${HOME_DIR_UID}" "${USERNAME}"
+        echo "UID and GID for user '${USERNAME}' (${USER_UID}:${USER_GID}) do not match directory '${DIR}' (${DIR_UID}:${DIR_GID}). Modify."
+        usermod -g "${DIR_GID}" -u "${DIR_UID}" "${USERNAME}"
     fi
 fi
