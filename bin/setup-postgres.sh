@@ -16,7 +16,7 @@ if psql -l | grep -q "\b${PGDATABASE}\b"; then
         echo "Database '${PGDATBASE}' already exists, and -f option given. Drop."
         dropdb "${PGDATABASE}"
     else
-        echo "Database '${PGDATABASE}' already exists, but -f option not given. Skip."
+        echo "Database '${PGDATABASE}' already exists, but -f option not given. Ignore."
         exit 0
     fi
 fi
