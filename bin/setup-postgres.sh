@@ -26,9 +26,10 @@ echo "Create database '${PGDATABASE}'."
 createdb "${PGDATABASE}"
 
 # Restore from file or source database.
-if [[ -f "${PROJECT_DIR}/var/initial_data.sql" ]]; then
-    echo "Restore database '${PGDATABASE}' from file '${PROJECT_DIR}/var/initial_data.sql'."
-    psql -d "${PGDATABASE}" -f "${PROJECT_DIR}/var/initial_data.sql"
+INITIAL_DATA="${SRC_PGDATABASE:-${PROJECT_DIR}/var/initial_data.sql}"
+if [[ -f "${INITIAL_DATA}" ]]; then
+    echo "Restore to database '${PGDATABASE}' from file '${INITIAL_DATA}'."
+    psql -d "${PGDATABASE}" -f "${INITIAL_DATA}"
 elif [[ -n "${SRC_PGDATABASE}" ]]; then
     # Get source database credentials.
     SRC_PGHOST="${SRC_PGHOST:-${PGHOST}}"
