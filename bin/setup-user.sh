@@ -19,10 +19,10 @@ fi
 if ! id "${USERNAME}" 2> /dev/null; then
     echo "User '${USERNAME}' does not exist. Create."
     if [[ -d "${DIR}" ]]; then
-        echo "Directory '${DIR}' already exists. Skip."
+        echo "Home directory '${DIR}' already exists."
         adduser --system --home "${DIR}" --no-create-home "${USERNAME}"
     else
-        echo "Directory '${DIR}' does not exist. Create."
+        echo "Home directory '${DIR}' does not exist. Create."
         adduser --system --home "${DIR}" "${USERNAME}"
     fi
 fi
