@@ -37,7 +37,7 @@ USER_UID=$(id -u "${USERNAME}")
 if [[ "${USER_UID}" != "${DIR_UID}" ]] || [[ "${USER_GID}" != "${DIR_GID}" ]]; then
     if [[ "${DIR_UID}" == 0 ]]; then
         echo "Directory '${DIR}' is owned by root. Change owner."
-        chown -fR "${USER_UID}:${USER_GID}" "${DIR}"
+        chown -R "${USER_UID}:${USER_GID}" "${DIR}" || true  # Allow non-zero exit code
     else
         echo "UID and GID for user '${USERNAME}' (${USER_UID}:${USER_GID}) do not match directory '${DIR}' (${DIR_UID}:${DIR_GID}). Modify."
         usermod -g "${DIR_GID}" -u "${DIR_UID}" "${USERNAME}"
