@@ -8,6 +8,10 @@
 
 COMMIT=${1:-master}
 
+if [[ "$COMMIT" == "master" ]]; then
+    >&2 echo "Downloading 'master' version of scripts. You should specify a specific commit for repeatable builds."
+fi
+
 # Dockerize.
 DOCKERIZE_VERSION=0.2.0
 wget -O - "https://github.com/jwilder/dockerize/releases/download/v${DOCKERIZE_VERSION}/dockerize-linux-amd64-v${DOCKERIZE_VERSION}.tar.gz" | tar -xz -C /usr/local/bin/ -f -
