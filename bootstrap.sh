@@ -4,7 +4,9 @@
 # it, which would require a complete rebuild of all derivative images for a
 # simple script change.
 
-# Usage: wget -O - https://raw.githubusercontent.com/ixc/base-docker/master/bootstrap.sh | sh
+# Usage: wget -O - https://raw.githubusercontent.com/ixc/base-docker/master/bootstrap.sh | sh -s {commit}
+
+COMMIT=${1:-master}
 
 # Dockerize.
 DOCKERIZE_VERSION=0.2.0
@@ -18,9 +20,9 @@ chmod +x /usr/local/bin/gosu
 # Scripts.
 mkdir -p /opt/base/bin
 cd /opt/base/bin
-wget https://raw.githubusercontent.com/ixc/base-docker/master/bin/entrypoint-gosu-dir.sh
-wget https://raw.githubusercontent.com/ixc/base-docker/master/bin/gulp.sh
-wget https://raw.githubusercontent.com/ixc/base-docker/master/bin/setup-postgres.sh
-wget https://raw.githubusercontent.com/ixc/base-docker/master/bin/setup-user.sh
+wget "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/entrypoint-gosu-dir.sh"
+wget "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/gulp.sh"
+wget "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/setup-postgres.sh"
+wget "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/setup-user.sh"
 chmod +x /opt/base/bin/*.sh
 export PATH=/opt/base/bin:$PATH
