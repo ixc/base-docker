@@ -8,7 +8,7 @@
 
 COMMIT=${1:-master}
 
-if [[ "$COMMIT" == "master" ]]; then
+if [ "$COMMIT" = "master" ]; then
     >&2 echo "Downloading 'master' version of scripts. You should specify a specific commit for repeatable builds."
 fi
 
