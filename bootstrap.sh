@@ -24,11 +24,9 @@ wget -nv -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/downloa
 chmod +x /usr/local/bin/gosu
 
 # Scripts.
-mkdir -p /opt/base/bin
-cd /opt/base/bin
+cd /usr/local/bin
 wget -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/entrypoint-gosu-dir.sh"
 wget -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/gulp.sh"
 wget -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/setup-postgres.sh"
 wget -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/setup-user.sh"
-chmod +x /opt/base/bin/*.sh
-export PATH=/opt/base/bin:$PATH
+chmod +x *.sh
