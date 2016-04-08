@@ -8,6 +8,8 @@
 # If the source database is on a different host, `SRC_PGHOST`, `SRC_PGPORT`,
 # `SRC_PGUSER`, and `SRC_PGPASSWORD` can also be specified.
 
+echo "# ${0}"
+
 set -e
 
 # If `PGDATABASE` already exists, drop (when -f option given) or exit.
@@ -17,7 +19,7 @@ if psql -l | grep -q "\b${PGDATABASE}\b"; then
         dropdb "${PGDATABASE}"
     else
         echo "Database '${PGDATABASE}' already exists, but -f option not given. Ignore."
-        exit 0
+        exec "$@"
     fi
 fi
 
@@ -41,3 +43,5 @@ elif [[ -n "${SRC_PGDATABASE}" ]]; then
     echo "Restore database '${PGDATABASE}' from source database '${SRC_PGDATABASE}' on tcp://${SRC_PGHOST}:${SRC_PGPORT}."
     PGPASSWORD="${SRC_PGPASSWORD}" pg_dump -d "${SRC_PGDATABASE}" -h "${SRC_PGHOST}" -p "${SRC_PGPORT}" -U "${SRC_PGUSER}" -O -x | psql -d "${PGDATABASE}"
 fi
+
+exec "$@"

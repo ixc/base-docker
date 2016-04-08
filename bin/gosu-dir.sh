@@ -2,6 +2,8 @@
 
 # Execute a command with the same UID and GID as the given directory.
 
+echo "# ${0}"
+
 set -e
 
 DIR="$1"

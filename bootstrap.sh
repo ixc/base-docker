@@ -25,7 +25,7 @@ chmod +x /usr/local/bin/gosu
 
 # Scripts.
 cd /usr/local/bin
-wget -N -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/entrypoint-gosu-dir.sh"
+wget -N -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/gosu-dir.sh"
 wget -N -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/gulp.sh"
 wget -N -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/setup-postgres.sh"
 wget -N -nv "https://raw.githubusercontent.com/ixc/base-docker/${COMMIT}/bin/setup-user.sh"

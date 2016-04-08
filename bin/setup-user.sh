@@ -5,6 +5,8 @@
 # the directory already exists and is owned by root, change its UID and GID to
 # match the user.
 
+echo "# ${0}"
+
 set -e
 
 USERNAME="$1"
