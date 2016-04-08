@@ -42,6 +42,6 @@ if [[ "${USER_UID}" != "${DIR_UID}" ]] || [[ "${USER_GID}" != "${DIR_GID}" ]]; t
         chown -R "${USER_UID}:${USER_GID}" "${DIR}" || true  # Allow non-zero exit code
     else
         echo "UID and GID for user '${USERNAME}' (${USER_UID}:${USER_GID}) do not match directory '${DIR}' (${DIR_UID}:${DIR_GID}). Modify."
-        usermod -g "${DIR_GID}" -u "${DIR_UID}" "${USERNAME}"
+        usermod -u "${DIR_UID}" "${USERNAME}"
     fi
 fi
