@@ -12,13 +12,13 @@ echo "# ${0}"
 
 set -e
 
-# If `PGDATABASE` already exists, drop (when -f option given) or exit.
+# If `PGDATABASE` already exists, drop (when `SETUP_POSTGRES_FORCE` is set) or exit.
 if psql -l | grep -q "\b${PGDATABASE}\b"; then
-    if [[ "$1" = '-f' ]]; then
-        echo "Database '${PGDATBASE}' already exists, and -f option given. Drop."
+    if [[ -n "${SETUP_POSTGRES_FORCE}" ]]; then
+        echo "Database '${PGDATABASE}' already exists, and SETUP_POSTGRES_FORCE set. Drop."
         dropdb "${PGDATABASE}"
     else
-        echo "Database '${PGDATABASE}' already exists, but -f option not given. Ignore."
+        echo "Database '${PGDATABASE}' already exists, but SETUP_POSTGRES_FORCE not set. Ignore."
         exec "$@"
     fi
 fi
