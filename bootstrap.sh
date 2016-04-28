@@ -20,8 +20,12 @@ wget -nv -O - "https://github.com/jwilder/dockerize/releases/download/v${DOCKERI
 
 # Gosu.
 GOSU_VERSION=1.7
-wget -N -nv -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)"
+wget -nv -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture)"
 chmod +x /usr/local/bin/gosu
+
+TINI_VERSION=0.9.0
+wget -nv -O /usr/local/bin/tini "https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static"
+chmod +x /usr/local/bin/tini
 
 # Scripts.
 cd /usr/local/bin
