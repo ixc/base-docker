@@ -28,7 +28,7 @@ echo "Create database '${PGDATABASE}'."
 createdb "${PGDATABASE}"
 
 # Restore from file or source database.
-INITIAL_DATA="${SRC_PGDATABASE:-${PROJECT_DIR}/var/initial_data.sql}"
+INITIAL_DATA="${SRC_PGDATABASE:-${PROJECT_DIR}/initial_data.sql}"
 if [[ -f "${INITIAL_DATA}" ]]; then
     echo "Restore to database '${PGDATABASE}' from file '${INITIAL_DATA}'."
     psql -d "${PGDATABASE}" -f "${INITIAL_DATA}" -q
